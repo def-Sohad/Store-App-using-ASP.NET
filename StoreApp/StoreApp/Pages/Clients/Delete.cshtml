@@ -1,0 +1,24 @@
+﻿@page
+@using System.Data.SqlClient;
+@{
+    string id = Request.Query["id"];
+    try
+    {
+        string connectionstring = "Data Source=SOHAD-PC;Initial Catalog=StoreApp;Integrated Security=True";
+        using (SqlConnection conn = new SqlConnection(connectionstring))
+        {
+            conn.Open();
+            string CommandText = "DELETE * FROM Clients WHERE Id=@id";
+            using (SqlCommand cmd = new SqlCommand(CommandText, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.ExecuteNonQuery();
+
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+    }
+    Response.Redirect("/Clients/Index");
+}
